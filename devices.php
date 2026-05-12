@@ -539,6 +539,92 @@ function pay(url) {
 		</style>
 <!-- The styles -->
 		<?php  include 'includes/css.php';?>
+		<style>
+		/* Safe visual refresh: keep the original PHP/JS flow and only polish the existing markup. */
+		body {
+			background: #eef3f8;
+		}
+		#content {
+			padding-top: 12px;
+		}
+		.sortable.row-fluid {
+			display: inline;
+		}
+		.top-block.well {
+			background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+			border: 1px solid #dce6f1;
+			border-radius: 16px;
+			box-shadow: 0 10px 24px rgba(15, 23, 42, .09);
+			box-sizing: border-box;
+			color: #1f2937;
+			margin: 0 1.5% 18px 0;
+			min-height: 285px;
+			overflow: hidden;
+			padding: 16px 14px;
+			position: relative;
+			text-align: center;
+			transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+		}
+		a.top-block.well:hover,
+		.top-block.well:hover {
+			border-color: #93c5fd;
+			box-shadow: 0 16px 34px rgba(15, 23, 42, .14);
+			text-decoration: none;
+			transform: translateY(-2px);
+		}
+		.top-block.well > div:first-child,
+		.top-block.well > a:first-child + div {
+			color: #0f172a;
+			font-size: 18px;
+			font-weight: bold;
+			line-height: 1.25;
+			margin-bottom: 10px;
+		}
+		.top-block.well img#aa {
+			filter: drop-shadow(0 8px 12px rgba(15, 23, 42, .14));
+			max-height: 108px;
+			max-width: 150px;
+			object-fit: contain;
+		}
+		.top-block.well select,
+		.top-block.well input[type="number"],
+		.top-block.well input[type="text"] {
+			border: 1px solid #cbd5e1;
+			border-radius: 10px;
+			box-shadow: inset 0 1px 2px rgba(15, 23, 42, .05);
+			box-sizing: border-box;
+			margin-bottom: 8px;
+			padding: 7px 9px;
+		}
+		.top-block.well .notification {
+			border-radius: 999px;
+			box-shadow: none;
+			font-size: 12px;
+			font-weight: bold;
+			padding: 5px 10px;
+		}
+		.submit-button {
+			border-radius: 12px;
+			box-shadow: 0 8px 18px rgba(34, 197, 94, .22);
+			transition: transform .15s ease, box-shadow .15s ease;
+		}
+		.submit-button:hover {
+			box-shadow: 0 12px 24px rgba(34, 197, 94, .28);
+			transform: translateY(-1px);
+		}
+		@media (max-width: 979px) {
+			.top-block.well.span3 {
+				width: 46%;
+			}
+		}
+		@media (max-width: 767px) {
+			.top-block.well.span3 {
+				float: none;
+				margin-right: 0;
+				width: 100%;
+			}
+		}
+		</style>
 </head>
 <?php 
 if(isset($close))
