@@ -1,3 +1,16 @@
+	<script type="text/javascript">
+	(function () {
+		var viewport = document.querySelector('meta[name="viewport"]');
+		if (!viewport) {
+			viewport = document.createElement('meta');
+			viewport.setAttribute('name', 'viewport');
+			document.head.appendChild(viewport);
+		}
+		if (viewport.content.indexOf('viewport-fit=cover') === -1) {
+			viewport.content = (viewport.content || 'width=device-width, initial-scale=1.0') + ', viewport-fit=cover';
+		}
+	}());
+	</script>
 <link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
@@ -33,6 +46,7 @@
 	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
 	<link href='css/opa-icons.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
+	<link href='css/modern-responsive.css' rel='stylesheet'>
 	
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
