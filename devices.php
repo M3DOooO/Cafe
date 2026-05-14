@@ -255,6 +255,11 @@ function ps_device_type_label($type)
 	return $type;
 }
 
+function ps_attr($value)
+{
+	return htmlspecialchars($value, ENT_QUOTES);
+}
+
 function ps_device_icon($version, $active)
 {
 	$icons_off = array(
@@ -352,288 +357,18 @@ function pay(url) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="<?php echo $lang_1;?>">
 <meta name="author" content="Mohamed Gad">
-		<style>
-		body {
-			background: #f3f6fb;
-		}
-		a.tip {
-			border-bottom: 1px dashed;
-			text-decoration: none;
-		}
-		a.tip:hover {
-			cursor: help;
-			position: relative;
-		}
-		a.tip span {
-			display: none;
-		}
-		a.tip:hover span {
-			border: #c0c0c0 1px dotted;
-			padding: 5px 20px 5px 5px;
-			display: block;
-			z-index: 100;
-			background: url(../images/status-info.png) #f0f0f0 no-repeat 100% 5%;
-			left: 0px;
-			margin: 10px;
-			width: 250px;
-			position: absolute;
-			color: #ff0505;
-			top: 10px;
-			text-decoration: none;
-		}
-		.devices-dashboard {
-			padding: 8px 0 20px;
-		}
-		.devices-toolbar {
-			background: linear-gradient(135deg, #0f172a, #1d4ed8);
-			border-radius: 18px;
-			box-shadow: 0 18px 45px rgba(15, 23, 42, .18);
-			color: #fff;
-			margin-bottom: 18px;
-			padding: 18px 22px;
-		}
-		.devices-toolbar h2 {
-			color: #fff;
-			font-size: 24px;
-			line-height: 1.2;
-			margin: 0 0 6px;
-		}
-		.devices-toolbar p {
-			color: rgba(255,255,255,.75);
-			font-size: 13px;
-			margin: 0;
-		}
-		.devices-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-			gap: 16px;
-		}
-		.device-card,
-		.device-card:visited {
-			background: #fff;
-			border: 1px solid rgba(148, 163, 184, .28);
-			border-radius: 18px;
-			box-shadow: 0 12px 32px rgba(15, 23, 42, .08);
-			color: #111827;
-			display: block;
-			min-height: 252px;
-			overflow: hidden;
-			padding: 16px;
-			position: relative;
-			text-align: center;
-			text-decoration: none;
-			transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-		}
-		.device-card:hover {
-			box-shadow: 0 18px 42px rgba(15, 23, 42, .16);
-			text-decoration: none;
-			transform: translateY(-3px);
-		}
-		.device-card--on { border-top: 5px solid #22c55e; }
-		.device-card--off { border-top: 5px solid #64748b; }
-		.device-card--finished { border-top: 5px solid #f59e0b; }
-		.device-card__status {
-			border-radius: 999px;
-			color: #fff;
-			font-size: 12px;
-			font-weight: bold;
-			padding: 5px 12px;
-			position: absolute;
-			right: 12px;
-			top: 12px;
-		}
-		.device-card--on .device-card__status { background: #16a34a; }
-		.device-card--off .device-card__status { background: #475569; }
-		.device-card--finished .device-card__status { background: #f97316; }
-		.device-card__name {
-			font-size: 18px;
-			font-weight: 700;
-			margin: 20px 0 8px;
-			padding: 0 58px 0 0;
-		}
-		.device-card__type {
-			color: #64748b;
-			font-size: 13px;
-			font-weight: 600;
-			margin-bottom: 10px;
-			min-height: 18px;
-		}
-		.device-card__icon {
-			align-items: center;
-			display: flex;
-			height: 112px;
-			justify-content: center;
-			margin: 0 auto 10px;
-		}
-		.device-card__icon img {
-			max-height: 105px;
-			max-width: 135px;
-		}
-		.device-card__timer {
-			background: #f8fafc;
-			border-radius: 14px;
-			font-family: Arial, Tahoma, sans-serif;
-			font-size: 24px;
-			font-weight: 800;
-			letter-spacing: .04em;
-			margin: 8px auto 12px;
-			padding: 10px 12px;
-		}
-		.device-card__timer--up { color: #dc2626; }
-		.device-card__timer--down { color: #16a34a; }
-		.device-card__timer--done { color: #0284c7; }
-		.device-card__actions {
-			align-items: center;
-			display: flex;
-			gap: 8px;
-			justify-content: center;
-		}
-		.device-start-form select,
-		.device-start-form input[type="number"],
-		.device-start-form input[type="text"] {
-			box-sizing: border-box;
-			border: 1px solid #cbd5e1;
-			border-radius: 10px;
-			box-shadow: none;
-			margin-bottom: 8px;
-			padding: 8px 10px;
-			width: 100%;
-		}
-		.device-start-form .time-inputs {
-			display: none;
-			gap: 8px;
-		}
-		.device-start-form .time-inputs input { width: 50%; }
-		.device-start-form.is-time .time-inputs { display: flex; }
-		.device-start-form.is-time .unlimited-input { display: none; }
-		.device-mode-buttons {
-			display: flex;
-			gap: 8px;
-			justify-content: center;
-			margin-bottom: 8px;
-		}
-		.device-mode-btn {
-			background: #eef2ff;
-			border: 0;
-			border-radius: 12px;
-			cursor: pointer;
-			padding: 8px 14px;
-		}
-		.device-mode-btn img { width: 30px; }
-		.device-submit {
-			background: linear-gradient(135deg, #16a34a, #22c55e);
-			border: 0;
-			border-radius: 12px;
-			box-shadow: 0 8px 20px rgba(34, 197, 94, .25);
-			color: #fff;
-			font-weight: 700;
-			padding: 10px 18px;
-			width: 100%;
-		}
-		.blink_meee { animation: blinker 1s linear infinite; }
-		@keyframes blinker { 50% { opacity: 0; } }
-		@media (max-width: 767px) {
-			.devices-grid { grid-template-columns: 1fr; }
-			.device-card { min-height: auto; }
-		}
-		</style>
+
 <!-- The styles -->
 		<?php  include 'includes/css.php';?>
-		<style>
-		/* Safe visual refresh: keep the original PHP/JS flow and only polish the existing markup. */
-		body {
-			background: #eef3f8;
-		}
-		#content {
-			padding-top: 12px;
-		}
-		.sortable.row-fluid {
-			display: inline;
-		}
-		.top-block.well {
-			background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-			border: 1px solid #dce6f1;
-			border-radius: 16px;
-			box-shadow: 0 10px 24px rgba(15, 23, 42, .09);
-			box-sizing: border-box;
-			color: #1f2937;
-			margin: 0 1.5% 18px 0;
-			min-height: 285px;
-			overflow: hidden;
-			padding: 16px 14px;
-			position: relative;
-			text-align: center;
-			transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
-		}
-		a.top-block.well:hover,
-		.top-block.well:hover {
-			border-color: #93c5fd;
-			box-shadow: 0 16px 34px rgba(15, 23, 42, .14);
-			text-decoration: none;
-			transform: translateY(-2px);
-		}
-		.top-block.well > div:first-child,
-		.top-block.well > a:first-child + div {
-			color: #0f172a;
-			font-size: 18px;
-			font-weight: bold;
-			line-height: 1.25;
-			margin-bottom: 10px;
-		}
-		.top-block.well img#aa {
-			filter: drop-shadow(0 8px 12px rgba(15, 23, 42, .14));
-			max-height: 108px;
-			max-width: 150px;
-			object-fit: contain;
-		}
-		.top-block.well select,
-		.top-block.well input[type="number"],
-		.top-block.well input[type="text"] {
-			border: 1px solid #cbd5e1;
-			border-radius: 10px;
-			box-shadow: inset 0 1px 2px rgba(15, 23, 42, .05);
-			box-sizing: border-box;
-			margin-bottom: 8px;
-			padding: 7px 9px;
-		}
-		.top-block.well .notification {
-			border-radius: 999px;
-			box-shadow: none;
-			font-size: 12px;
-			font-weight: bold;
-			padding: 5px 10px;
-		}
-		.submit-button {
-			border-radius: 12px;
-			box-shadow: 0 8px 18px rgba(34, 197, 94, .22);
-			transition: transform .15s ease, box-shadow .15s ease;
-		}
-		.submit-button:hover {
-			box-shadow: 0 12px 24px rgba(34, 197, 94, .28);
-			transform: translateY(-1px);
-		}
-		@media (max-width: 979px) {
-			.top-block.well.span3 {
-				width: 46%;
-			}
-		}
-		@media (max-width: 767px) {
-			.top-block.well.span3 {
-				float: none;
-				margin-right: 0;
-				width: 100%;
-			}
-		}
-		</style>
 </head>
 <?php 
 if(isset($close))
 {
-	?><body onload="pay('actions/print/ps.php?Session=<?php  echo $Receipt; ?>&&id=<?php  echo $id; ?>')">
+	?><body class="devices-page" onload="pay('actions/print/ps.php?Session=<?php  echo $Receipt; ?>&&id=<?php  echo $id; ?>')">
 	<?php }
 else
 {
-	?><body><?php 
+	?><body class="devices-page"><?php
 }
 ?>
 <!-- topbar starts -->
@@ -678,14 +413,23 @@ $total_devices = count($devices);
 ?>
 <div class="devices-dashboard">
 	<div class="devices-toolbar">
-		<h2><?php echo $lang_1; ?></h2>
-		<p>
-			<?php echo $total_devices; ?> Devices &nbsp; | &nbsp;
-			<?php echo $lang_2; ?>: <?php echo $device_counts['On']; ?> &nbsp; | &nbsp;
-			<?php echo $lang_12; ?>: <?php echo $device_counts['Off']; ?> &nbsp; | &nbsp;
-			<?php echo $lang_13; ?>: <?php echo $device_counts['finished']; ?>
-		</p>
+		<div class="devices-toolbar__copy">
+			<span class="devices-toolbar__eyebrow">Live Dashboard</span>
+			<h2><?php echo $lang_1; ?></h2>
+			<p><?php echo $total_devices; ?> Devices</p>
+		</div>
+		<div class="devices-stats">
+			<button type="button" class="devices-stat is-active js-device-filter" data-filter="all"><span><?php echo $total_devices; ?></span><small>All</small></button>
+			<button type="button" class="devices-stat devices-stat--on js-device-filter" data-filter="on"><span><?php echo $device_counts['On']; ?></span><small><?php echo $lang_2; ?></small></button>
+			<button type="button" class="devices-stat devices-stat--off js-device-filter" data-filter="off"><span><?php echo $device_counts['Off']; ?></span><small><?php echo $lang_12; ?></small></button>
+			<button type="button" class="devices-stat devices-stat--finished js-device-filter" data-filter="finished"><span><?php echo $device_counts['finished']; ?></span><small><?php echo $lang_13; ?></small></button>
+		</div>
+		<div class="devices-search">
+			<i class="icon-search"></i>
+			<input type="search" class="js-device-search" placeholder="Search / بحث" autocomplete="off" />
+		</div>
 	</div>
+	<div class="devices-empty js-devices-empty">No matching devices</div>
 	<div class="devices-grid">
 <?php
 foreach($devices as $row)
@@ -698,6 +442,8 @@ foreach($devices as $row)
 	$icon = ps_device_icon($row['ps_version'], $status == 'On');
 	$icon_style = ps_device_icon_style($row['ps_version']);
 	$type_label = ps_device_type_label($thetype);
+	$card_status = strtolower($status);
+	$card_search = ps_attr($row['Device Name'].' '.$type_label.' '.$status);
 
 	if ($status == 'On')
 	{
@@ -706,17 +452,17 @@ foreach($devices as $row)
 			$the_url = $is_cafe ? 'devices_cafe.php?id=' : 'devices_ps.php?id=';
 			$elapsed = $is_cafe ? 0 : ps_elapsed_seconds($row);
 			?>
-			<a data-rel="tooltip" class="device-card device-card--on" href="<?php echo $the_url.$id;?>">
+			<a data-rel="tooltip" class="device-card device-card--on js-device-card" data-status="<?php echo $card_status; ?>" data-search="<?php echo $card_search; ?>" href="<?php echo $the_url.$id;?>">
 				<span class="device-card__status"><?php echo $lang_2;?></span>
 				<div class="device-card__name"><?php echo $row['Device Name']; ?></div>
-				<div class="device-card__icon"><img src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></div>
+				<div class="device-card__icon"><img loading="lazy" decoding="async" src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></div>
 				<?php if(!$is_cafe) { ?>
 					<div class="device-card__type"><?php echo $type_label; ?></div>
 					<div class="device-card__timer device-card__timer--up js-device-timer" data-seconds="<?php echo $elapsed; ?>" data-direction="up"><?php echo $elapsed; ?></div>
 				<?php } else { ?>
 					<div class="device-card__type">Cafe</div>
 				<?php } ?>
-				<div class="device-card__actions"><img src="img/app/buttons/info.png" /> </div>
+				<div class="device-card__actions"><img loading="lazy" decoding="async" src="img/app/buttons/info.png" alt="" /> </div>
 			</a>
 			<?php
 		}
@@ -729,13 +475,13 @@ foreach($devices as $row)
 				$status = 'finished';
 			}
 			?>
-			<a data-rel="tooltip" class="device-card device-card--on" href="devices_ps.php?id=<?php echo $id;?>">
+			<a data-rel="tooltip" class="device-card device-card--on js-device-card" data-status="<?php echo $card_status; ?>" data-search="<?php echo $card_search; ?>" href="devices_ps.php?id=<?php echo $id;?>">
 				<span class="device-card__status"><?php echo $lang_2;?></span>
 				<div class="device-card__name"><?php echo $row['Device Name']; ?></div>
-				<div class="device-card__icon"><img src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></div>
+				<div class="device-card__icon"><img loading="lazy" decoding="async" src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></div>
 				<div class="device-card__type"><?php echo $type_label; ?></div>
 				<div class="device-card__timer device-card__timer--down js-device-timer" data-seconds="<?php echo $remaining; ?>" data-direction="down" data-expire-url="actions/ps/timerstop.php?id=<?php echo $id; ?>"><?php echo $remaining; ?></div>
-				<div class="device-card__actions"><img src="img/app/buttons/info.png" /> </div>
+				<div class="device-card__actions"><img loading="lazy" decoding="async" src="img/app/buttons/info.png" alt="" /> </div>
 			</a>
 			<?php
 		}
@@ -743,14 +489,14 @@ foreach($devices as $row)
 	else if ($status == 'Off')
 	{
 		?>
-		<div data-rel="tooltip" class="device-card device-card--off">
+		<div data-rel="tooltip" class="device-card device-card--off js-device-card" data-status="off" data-search="<?php echo $card_search; ?>">
 			<span class="device-card__status"><?php echo $lang_12;?></span>
 			<div class="device-card__name"><?php echo $row['Device Name']; ?></div>
 			<div class="device-card__icon">
 				<?php if($row['ps_version'] == '2' || $row['ps_version'] == '3' || $row['ps_version'] == '4') { ?>
-					<a href="#" class="tip"><span>الألعاب المتاحة:<br/><?php echo $row['Paused']; ?></span><img src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></a>
+					<a href="#" class="tip"><span>الألعاب المتاحة:<br/><?php echo $row['Paused']; ?></span><img loading="lazy" decoding="async" src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></a>
 				<?php } else { ?>
-					<img src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> />
+					<img loading="lazy" decoding="async" src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> />
 				<?php } ?>
 			</div>
 			<form class="device-start-form" action="devices.php" method="post">
@@ -769,8 +515,8 @@ foreach($devices as $row)
 						<option value="multi7"><?php echo $lang_7;?></option>
 					</select>
 					<div class="device-mode-buttons">
-						<button class="device-mode-btn js-mode-unlimited" type="button" title="<?php echo $lang_8;?>" data-rel="tooltip"><img src="img/app/devices/un.png" /></button>
-						<button class="device-mode-btn js-mode-time" type="button" title="<?php echo $lang_9;?>" data-rel="tooltip"><img src="img/app/devices/ti.png" /></button>
+						<button class="device-mode-btn js-mode-unlimited" type="button" title="<?php echo $lang_8;?>" data-rel="tooltip"><img loading="lazy" decoding="async" src="img/app/devices/un.png" alt="" /></button>
+						<button class="device-mode-btn js-mode-time" type="button" title="<?php echo $lang_9;?>" data-rel="tooltip"><img loading="lazy" decoding="async" src="img/app/devices/ti.png" alt="" /></button>
 					</div>
 					<div class="time-inputs">
 						<input type="number" name="seth" placeholder="<?php echo $lang_10;?>" min="0" max="24" />
@@ -786,13 +532,13 @@ foreach($devices as $row)
 	else if ($status == 'finished')
 	{
 		?>
-		<a data-rel="tooltip" class="device-card device-card--finished js-finished-device" href="devices_ps.php?id=<?php echo $id;?>">
+		<a data-rel="tooltip" class="device-card device-card--finished js-finished-device js-device-card" data-status="finished" data-search="<?php echo $card_search; ?>" href="devices_ps.php?id=<?php echo $id;?>">
 			<span class="device-card__status"><?php echo $lang_13;?></span>
 			<div class="device-card__name"><?php echo $row['Device Name']; ?></div>
 			<div class="device-card__type"><?php echo $type_label; ?></div>
-			<div class="device-card__icon"><img src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></div>
+			<div class="device-card__icon"><img loading="lazy" decoding="async" src="img/app/devices/<?php echo $icon; ?>"<?php echo $icon_style; ?> /></div>
 			<div class="device-card__timer device-card__timer--done"><span class="blink_meee">00:00:00</span></div>
-			<div class="device-card__actions"><img src="img/app/buttons/pay.png" /></div>
+			<div class="device-card__actions"><img loading="lazy" decoding="async" src="img/app/buttons/pay.png" alt="" /></div>
 		</a>
 		<?php
 	}
@@ -990,6 +736,38 @@ else if($user_shift == '1')
 		if ($('.js-device-timer').length) {
 			setInterval(updateTimers, 1000);
 		}
+
+		var activeFilter = 'all';
+		var $cards = $('.js-device-card');
+		var $empty = $('.js-devices-empty');
+
+		function applyDeviceFilter() {
+			var query = $.trim($('.js-device-search').val() || '').toLowerCase();
+			var visibleCount = 0;
+
+			$cards.each(function () {
+				var $card = $(this);
+				var statusMatches = activeFilter === 'all' || $card.attr('data-status') === activeFilter;
+				var searchText = ($card.attr('data-search') || '').toLowerCase();
+				var searchMatches = query === '' || searchText.indexOf(query) !== -1;
+				var isVisible = statusMatches && searchMatches;
+
+				$card.toggle(isVisible);
+				if (isVisible) { visibleCount++; }
+			});
+
+			$empty.toggle(visibleCount === 0);
+		}
+
+		$('.js-device-filter').on('click', function () {
+			$('.js-device-filter').removeClass('is-active');
+			$(this).addClass('is-active');
+			activeFilter = $(this).attr('data-filter') || 'all';
+			applyDeviceFilter();
+		});
+
+		$('.js-device-search').on('keyup change search', applyDeviceFilter);
+		applyDeviceFilter();
 
 		$('.js-mode-time').on('click', function () {
 			var $form = $(this).closest('.device-start-form');
