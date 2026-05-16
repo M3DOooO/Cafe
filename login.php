@@ -83,62 +83,70 @@ function newPopup2(url) {
 </script>
 </head>
 
-<body>
-				 
-		<div class="container-fluid">
-		<div class="row-fluid">
-		
-			<div class="row-fluid">
-				<div class="span12 center login-header">
-					<h2 class="login-introfont"><?php echo $lang_169;?> <font size="6" face="Arial Unicode MS" color="#b7b7b7">Ges</font><font  face="Arial Unicode MS" size="6" color="#33b5e5">ture</font> <br/><?php echo $lang_168;?></h2>
-				</div><!--/span-->
-			</div><!--/row-->
-			
-			<div class="row-fluid">
-				<div class="well span5 center login-box">
-			<?php 	$error = $_GET['error'];
-			if(isset($error))
-			{
-			?>
-						<div class="alert alert-error">
-						<?php echo $lang_185;?>
+<body class="login-page">
+	<div class="login-shell">
+		<div class="login-hero" aria-hidden="true">
+			<div class="login-hero__card login-hero__card--primary">
+				<span><?php echo $lang_169;?></span>
+				<strong>Gesture</strong>
+			</div>
+			<div class="login-hero__card login-hero__card--secondary">
+				<span><?php echo $lang_168;?></span>
+				<strong><?php echo $store; ?></strong>
+			</div>
+		</div>
+
+		<main class="login-panel" role="main">
+			<div class="login-brand">
+				<img src="img/app/defaults/logo20.png" alt="Gesture for Playstation" />
+				<div>
+					<p class="login-kicker"><?php echo $lang_169;?></p>
+					<h1><span>Ges</span>ture</h1>
+					<p><?php echo $lang_168;?></p>
+				</div>
+			</div>
+
+			<?php $error = $_GET['error']; ?>
+			<?php if(isset($error)) { ?>
+				<div class="alert alert-error login-alert"><?php echo $lang_185;?></div>
+			<?php } else { ?>
+				<div class="alert alert-info login-alert"><?php echo $lang_186;?></div>
+			<?php } ?>
+
+			<form class="login-form" action="actions/login/login_process.php" method="post">
+				<label for="username"><?php echo $lang_88;?></label>
+				<div class="login-field" title="<?php echo $lang_88;?>" data-rel="tooltip">
+					<i class="icon-user"></i>
+					<input autofocus name="ps_user" id="username" type="text" value="" autocomplete="username" />
+				</div>
+
+				<label for="password"><?php echo $lang_89;?></label>
+				<div class="login-field" title="<?php echo $lang_89;?>" data-rel="tooltip">
+					<i class="icon-lock"></i>
+					<input name="ps_pass" id="password" type="password" value="" autocomplete="current-password" />
+				</div>
+
+				<div class="login-options">
+					<label class="remember" for="remember"><input type="checkbox" id="remember" /><?php echo $lang_188;?></label>
+					<div class="login-languages" aria-label="Language">
+						<a href="login.php?lo=ar" data-rel="tooltip" title="<?php echo $lang_358;?>"><img src="img/app/login/eg.ico" width="25" height="25" alt="<?php echo $lang_358;?>" /></a>
+						<a href="login.php?lo=en" data-rel="tooltip" title="<?php echo $lang_359;?>"><img src="img/app/login/us.ico" width="25" height="25" alt="<?php echo $lang_359;?>" /></a>
 					</div>
-				<?php }	else { ?>
-					
-				<div class="alert alert-info">
-						<?php echo $lang_186;?>
-					</div><?php  } ?>
-					<form class="form-horizontal" action="actions/login/login_process.php" method="post">
-						<fieldset>
-							<div class="input-prepend" title="<?php echo $lang_88;?>" data-rel="tooltip">
-								<span class="add-on"><i class="icon-user"></i></span><input autofocus class="input-large span10" name="ps_user" id="username" type="text" value="" />
-							</div>
-							<div class="clearfix"></div>
+				</div>
 
-							<div class="input-prepend" title="<?php echo $lang_89;?>" data-rel="tooltip">
-								<span class="add-on"><i class="icon-lock"></i></span><input class="input-large span10" name="ps_pass" id="password" type="password" value="" />
-							</div>
-							<div class="clearfix"></div>
+				<button type="submit" class="btn btn-primary login-submit"><?php echo $lang_187;?></button>
+			</form>
 
-							<div class="input-prepend">
-							<label class="remember" for="remember"><input type="checkbox" id="remember" /><?php echo $lang_188;?></label>
-							</div>
-							<div class="clearfix"></div>
-        <a href="login.php?lo=ar" data-rel="tooltip" title="<?php echo $lang_358;?>"><img src="img/app/login/eg.ico" width="25" height="25" /></a>
-		<a href="login.php?lo=en" data-rel="tooltip" title="<?php echo $lang_359;?>"><img src="img/app/login/us.ico" width="25" height="25" /></a>					  
- 							<p class="center span5">
-							<button type="submit" class="btn btn-primary"><?php echo $lang_187;?></button>
-							</p>
-						</fieldset>
-					</form>
-					<center><img src = "img/app/defaults/logo20.png"  /></center>
-				</div><!--/span-->
-			</div><!--/row-->
-				</div><!--/fluid-row-->
-		<footer>
-			<p class="pull-left">&copy; <a href="http://www.psxegy.com" target="_blank">Gesture For Playstation</a> <?php $Year = idate('Y');   echo $Year;?></p>
- 		</footer>
-	</div><!--/.fluid-container-->
+			<div class="login-meta">
+				<?php if(!empty($phone)) { ?><span><?php echo $phone; ?></span><?php } ?>
+				<?php if(!empty($facebook)) { ?><a href="<?php echo $facebook; ?>" target="_blank">Facebook</a><?php } ?>
+			</div>
+		</main>
+	</div>
+
+	<footer class="login-footer">
+		<p>&copy; <a href="http://www.psxegy.com" target="_blank">Gesture For Playstation</a> <?php $Year = idate('Y'); echo $Year;?></p>
+	</footer>
 <?php  include 'includes/js.php';?>
 
 		
